@@ -1,0 +1,28 @@
+<!-- blog/templates/blog/index.html -->
+
+{% extends "blog/base.html" %}
+{% block title %}Entradas del Blog{% endblock %}
+
+{% block contenido %}
+<h2 class="mb-4">Últimas Entradas</h2>
+
+{% if entradas %}
+<div class="row g-4">
+  {% for entrada in entradas %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ entrada.titulo }}</h5>
+        <p class="card-text text-muted">
+          Por {{ entrada.autor.nombre }} | {{ entrada.fecha_publicacion|date:"d/m/Y" }}
+        </p>
+        <p class="card-text text-truncate">{{ entrada.contenido }}</p>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="alert alert-info">No hay entradas aún.</div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

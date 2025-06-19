@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+{% block title %}Buscar Entrada{% endblock %}
+
+{% block contenido %}
+<h2 class="mb-4">Buscar Entrada</h2>
+<form method="get" action="{% url 'buscar_entrada' %}">
+    <input type="text" name="query" placeholder="Buscar por título..." class="form-control mb-3">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+{% if resultados %}
+<h4 class="mt-4">Resultados:</h4>
+<ul class="list-group">
+    {% for entrada in resultados %}
+    <li class="list-group-item">{{ entrada.titulo }} - {{ entrada.autor.nombre }}</li>
+    {% empty %}
+    <li class="list-group-item">No se encontraron resultados.</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
