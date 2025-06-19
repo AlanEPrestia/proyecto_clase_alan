@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 
-from .forms import EntradaForm,AutorForm
+from .forms import EntradaForm, AutorForm, CategoriaForm
 from .models import Entrada
 
 def inicio(request):
@@ -26,6 +26,16 @@ def crear_autor(request):
     else:
         form = AutorForm()
     return render(request, 'blog/autor_form.html', {'form': form})
+
+def crear_categoria(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('crear_categoria')  # o a una página de confirmación
+    else:
+        form = CategoriaForm()
+    return render(request, 'blog/categoria_form.html', {'form': form})
 
 def buscar_entrada(request):
     query = request.GET.get('query')
