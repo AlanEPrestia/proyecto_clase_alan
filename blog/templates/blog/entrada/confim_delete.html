@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+{% block title %}Eliminar entrada{% endblock %}
+{% block contenido %}
+<h2>¿Estás seguro que querés eliminar "{{ object.titulo }}"?</h2>
+<form method="post">{% csrf_token %}
+  <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+  <a href="{% url 'entrada_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

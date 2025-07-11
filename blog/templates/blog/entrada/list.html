@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+{% block title %}Entradas - Mi Blog{% endblock %}
+{% block contenido %}
+<h1>Entradas</h1>
+{% if entradas %}
+  <div class="row">
+    {% for entrada in entradas %}
+      <div class="col-md-4">
+        <div class="card mb-4">
+          {% if entrada.imagen %}
+            <img src="{{ entrada.imagen.url }}" class="card-img-top" alt="{{ entrada.titulo }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ entrada.titulo }}</h5>
+            <p class="card-text">{{ entrada.subtitulo }}</p>
+            <a href="{% url 'entrada_detail' entrada.pk %}" class="btn btn-primary">Leer más</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No hay páginas aún.</p>
+{% endif %}
+{% endblock %}

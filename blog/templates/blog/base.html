@@ -6,64 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Mi Blog Django{% endblock %}</title>
 
-    <!-- Favicon -->
     <link rel="icon" href="{% static 'blog/images/favicon.ico' %}" type="image/x-icon">
-
-    <!-- CSS de Bootstrap desde CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet">
-
-    <!-- CSS personalizado -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'blog/css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
 
-<!-- Navigation -->
-<!-- blog/templates/blog/base.html -->
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'inicio' %}">Mi Blog</a>
+        <a class="navbar-brand fw-bold" href="{% url 'entrada_list' %}">Mi Blog</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crear_entrada' %}">Crear Entrada</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crear_categoria' %}">Crear Categoria</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crear_autor' %}">Crear autor</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'buscar_entrada' %}">Buscar</a>
-                </li>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'entrada_list' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'autor_list' %}">Autores</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'categoria_list' %}">Categorías</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Acerca de mí</a></li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if user.is_authenticated %}
+                    <li class="nav-item me-2">
+                        {% if avatar %}
+                            <img src="{{ avatar.imagen.url }}"
+                                 alt="Avatar"
+                                 class="rounded-circle shadow-sm"
+                                 style="width: 40px; height: 40px; object-fit: cover;">
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link">Hola, <strong>{{ user.username }}</strong></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary btn-sm mx-1" href="{% url 'editarPerfil' %}">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-success btn-sm mx-1" href="{% url 'entrada_create' %}">Nueva Entrada</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm mx-1">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'login' %}">Ingresar</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Main Content -->
-<div class="container">
+<!-- CONTENIDO -->
+<main class="container">
     {% block contenido %}
-    <!-- Aquí va el contenido específico de cada página -->
     {% endblock %}
-</div>
+</main>
 
-<!-- Footer -->
-<footer class="bg-light text-center py-4 mt-5">
+<!-- FOOTER -->
+<footer class="bg-light text-center text-muted py-4 mt-5 border-top">
     <div class="container">
-        <p class="mb-0 text-muted">&copy; {{ "now"|date:"Y" }} Mi Blog Django. Todos los derechos reservados.</p>
+        <p class="mb-0">&copy; {{ "now"|date:"Y" }} Mi Blog Django. Todos los derechos reservados.</p>
     </div>
 </footer>
 
-<!-- JS de Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

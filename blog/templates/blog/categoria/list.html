@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% block title %}Categorías{% endblock %}
+{% block contenido %}
+<h2>Categorías</h2>
+<ul class="list-group">
+{% if object_list %}
+  {% for categoria in categorias %}
+    <li class="list-group-item">
+      <strong>{{ categoria.nombre }}</strong><br>
+      {{ categoria.descripcion|linebreaksbr }}
+    </li>
+  {% endfor %}
+{% else %}
+                        <div class="alert alert-warning mt-3" role="alert">
+                            No se encontraron categorias.
+                        </div>
+  
+{% endif %}
+{% if user.is_authenticated %}
+    <div class="mb-3 text-end">
+                    <a href="{% url 'categoria_create' %}" class="btn btn-primary">
+                        Crear nueva categoria
+                    </a>
+        </div>             
+    {% endif %}
+</ul>
+{% endblock %}
